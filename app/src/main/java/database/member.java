@@ -23,14 +23,16 @@ public class member {
     public String security;
     public String gender;
     public String language;
+    public String custody;
     //default constructor for calls to DataSnapShot.getValue(User.class)
     public member()
     {   }
 
-    public member(String fn,String ln,String email,String password, String security,String g,String language)
+    public member(String fn,String ln,String email,String password, String security,String g,String custody,String language)
     {
         this.fname=fn;
         this.lname=ln;
+        this.custody = custody;
         this.email=email;
         this.password=password;
         this.userId = getTokenizableId();
@@ -82,6 +84,9 @@ public class member {
     {this.language=l;}
     public void setGender(String gender)
     {this.gender=gender;}
+    public void setCustody(String c)
+    {this.custody=c;}
+
 
 
 
@@ -104,6 +109,8 @@ public class member {
     {return this.gender;}
     public String getLanguage()
     {return this.language;}
+    public String getCustody()
+    {return this.custody;}
 
 
 
