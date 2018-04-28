@@ -1,15 +1,18 @@
 package tech.niocoders.com.supportsolutions;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.view.*;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 
 public class signup extends AppCompatActivity {
@@ -30,6 +33,10 @@ public class signup extends AppCompatActivity {
     private TextView custody;
     private Spinner  cSpinner;
     private Button   button;
+    private FirebaseAuth mUser;
+
+    private EditText languageEditText;
+
 
     // VARIABLE FOR THE CONTEXT //
     private Context context;
@@ -55,9 +62,11 @@ public class signup extends AppCompatActivity {
         custody    = findViewById(R.id.custodyText);
         cSpinner   = findViewById(R.id.custodySpinner);
         button     = findViewById(R.id.btnsingup);
+        languageEditText = (findViewById(R.id.languageEdit));
 
         // INITIALIZING THE CONTEXT //
         context = getApplicationContext();
+        mUser = FirebaseAuth.getInstance();
 
         // SPINNER FOR THE GENDER //
         // ********************** //
@@ -91,12 +100,63 @@ public class signup extends AppCompatActivity {
             public void onClick(View v) {
 
                 // OPENING THE ACTIVITY THAT GOES AFTER REGISTRATION //
+                String fname = fnEditText.getText().toString();
+                String lname = snEditText.getText().toString();
+                String phone =  pnEditText.getText().toString();
+                String email =  eEditText.getText().toString();
+                String password =  pEditText.getText().toString();
+                String gender = gSpinner.getSelectedItem().toString();
+                String custody = cSpinner.getSelectedItem().toString();
+                String language = languageEditText.getText().toString();
 
+                if(validateString(fname)
+                        && validateString(lname)
+                        && validateString(phone)
+                        && validateString(email)
+                        && validateString(gender)
+                        && validateString(custody)
+                        && validateString(language)
+                        && validateString(password))
+                {
+                    Context context = signup.this;
+                    Class childClass =  ss_camera_helper.class;
+                    Intent ss_camera_intent =  new Intent(context,childClass);
+                    ss_camera_intent.putExtra("fname",fname);
+                    ss_camera_intent.putExtra("lname",lname);
+                    ss_camera_intent.putExtra("phone",phone);
+                    ss_camera_intent.putExtra("email",email);
+                    ss_camera_intent.putExtra("gender",gender);
+                    ss_camera_intent.putExtra("custody",custody);
+                    ss_camera_intent.putExtra("language",language);
+                    ss_camera_intent.putExtra("password",password);
+
+                    startActivity(ss_camera_intent);
+
+                }
 
 
                 // TOAST TO SHOW THE USER THAT REGISTRATION WAS SUCCESSFULLY //
-                Toast.makeText(context, "DONE", Toast.LENGTH_LONG).show();
+
             }
         });
+    }
+
+    public boolean validateString(String text)
+    {return text.length()>0;}
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(mUser.getCurrentUser()!=null)
+        {
+            Toast.makeText(getApplicationContext(),"The user is logged with account = "+mUser.getCurrentUser().getEmail(),Toast.LENGTH_LONG).show();
+            Intent login = new Intent(signup.this,login.class);
+            startActivity(login);
+
+        }else{
+            Toast.makeText(getApplicationContext(),"Please input all credentials to log in on our end!!",Toast.LENGTH_LONG).show();
+
+        }
+
     }
 }

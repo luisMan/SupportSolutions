@@ -47,6 +47,8 @@ public class fb_database {
 
     private ss_camera_helper camera_helper;
 
+    private member profile;
+
 
     public fb_database(ss_camera_helper camera, Context context) {
         this.myContext = context;
@@ -80,6 +82,9 @@ public class fb_database {
     public void setUpdated(boolean upd) {
         this.updated = upd;
     }
+
+    public void setProfile(member p)
+    {this.profile=p;}
 
     public void setAuthenticated(boolean auth) {
         this.authenticated = auth;
@@ -119,10 +124,12 @@ public class fb_database {
     public boolean isCheckIfProfileisCreated() {
         return this.checkIfProfileisCreated == true;
     }
+    public member getProfile()
+    {return this.profile;}
 
-    public void FireBaseWriteNewUser(String name, String email, String password, String security, String gender, String language) {
-        member user = new member(name, email, password, security, gender, language);
-        DatabaseReference.child("users").child(user.getUserId()).setValue(user);
+    public void FireBaseWriteNewUser(String fname,String lname, String email, String password, String security, String gender,String custody, String language) {
+        member user = new member(fname,lname, email, password, security, gender,custody, language);
+        DatabaseReference.child("profile").child(user.getUserId()).setValue(user);
     }
 
     public void createProfileWithUserTokenId(final String userId) {
@@ -152,10 +159,10 @@ public class fb_database {
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        /*worm_profile exist = null;
+                        member exist = null;
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            worm_profile wp = snapshot.getValue(worm_profile.class);
-                            if (wp.getTokenId().equals(tokenId)) {
+                            member wp = snapshot.getValue(member.class);
+                            if (wp.getTokenizableId().equals(tokenId)) {
 
                                 exist = wp;
                                 break;
@@ -163,11 +170,10 @@ public class fb_database {
                         }
 
                         if (exist != null) {
-                            Log.d("profile",exist.toString());
-                            setProfile(exist);
-                            WornConstant.userProfileCookie = exist;
 
-                        }*/
+                            setProfile(exist);
+
+                        }
 
                     }
 
