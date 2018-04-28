@@ -33,6 +33,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    implementation 'com.stripe:stripe-android:6.1.2'
+
     compile 'com.squareup.okhttp3:okhttp:3.10.0'
     compile 'com.google.code.gson:gson:2.8.3'
     compile 'com.ibm.watson.developer_cloud:android-sdk:0.4.3'
@@ -42,6 +45,7 @@ dependencies {
     compile 'com.google.firebase:firebase-auth:11.6.0'
     compile 'com.google.firebase:firebase-storage:11.6.0'
     compile 'com.google.android.gms:play-services-ads:11.6.0'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -1,9 +1,14 @@
 package tech.niocoders.com.supportsolutions;
 
+feature/paymentmenthod
+import android.content.Context;
+import android.content.Intent;
+
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
+
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -17,6 +22,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+
+import com.stripe.android.model.Card;
 
 public class supportsolutions extends AppCompatActivity {
 
@@ -45,6 +52,15 @@ public class supportsolutions extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
+
+
+                Context context = supportsolutions.this;
+                Class child = PaymentActivity.class;
+                Intent obj = new Intent(context,child);
+                startActivity(obj);
+
+
                 Context appContext = supportsolutions.this;
                 Class camera_helper =  ss_camera_helper.class;
 
@@ -112,6 +128,8 @@ public class supportsolutions extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_supportsolutions, menu);
+
+
         return true;
     }
 
