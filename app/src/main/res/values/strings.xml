@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">SupportSolutions</string>
+    <string name="action_settings">Settings</string>
+<<<<<<< HEAD
+
+    <!-- SIGN UP TEXT STRINGS -->
+    <string name="first_name">First Name</string>
+    <string name="second_name">Second Name</string>
+    <string name="phone">Phone #</string>
+    <string name="emailsignup">Email</string>
+    <string name="passwordsignup">Password</string>
+    <string name="gender">Gender</string>
+    <string name="custody">Custody</string>
+    <string name="sign_up">Sign Up</string>
+
+    <!-- LOGIN TEXT STRINGS -->
+    <string name="emaillogin">Email</string>
+    <string name="passwordlogin">Password</string>
+    <string name="login">LogIn</string>
+
+    <!-- MAIN PAGE TEXT STRINGS -->
+    <string name="login_main">LOGIN</string>
+    <string name="signup_main">SignUp</string>
+
+
+=======
+    <string name="pref_sp">spanish</string>
+    <string name="pref_en">english</string>
+>>>>>>> 3017c47ad7c1319e7eb378c841b076c97bfdceb0
+</resources>

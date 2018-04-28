@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="tech.niocoders.com.supportsolutions">
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.MANAGE_DOCUMENTS"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <!-- MAIN ACTIVITY -->
+        <activity
+            android:name=".supportsolutions"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+<<<<<<< HEAD
+
+        <!-- ACTIVITY FOR THE LOGIN -->
+        <activity
+            android:name=".login"
+            android:label="login"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+
+        <!-- ACTIVITY FOR THE signup -->
+        <activity
+            android:name=".signup"
+            android:label="signup"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+
+=======
+        <activity
+            android:name=".ss_camera_helper"
+            android:parentActivityName=".supportsolutions">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".supportsolutions" />
+        </activity>
+>>>>>>> 3017c47ad7c1319e7eb378c841b076c97bfdceb0
+    </application>
+
+</manifest>
