@@ -30,6 +30,20 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".supportsolutions" />
         </activity>
+        <activity
+            android:name=".login"
+            android:parentActivityName=".supportsolutions">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".supportsolutions" />
+        </activity>
+        <activity
+            android:name=".signup"
+            android:parentActivityName=".supportsolutions">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".supportsolutions" />
+        </activity>
     </application>
 
 </manifest>
