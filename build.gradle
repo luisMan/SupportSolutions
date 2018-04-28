@@ -13,8 +13,6 @@ buildscript {
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
-    resValue "string", "google_maps_key",
-            (project.findProperty("GOOGLE_MAPS_API_KEY") ?: "")
 }
 
 allprojects {
