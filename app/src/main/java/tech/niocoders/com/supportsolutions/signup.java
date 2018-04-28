@@ -3,6 +3,7 @@ package tech.niocoders.com.supportsolutions;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -13,6 +14,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import database.fb_database;
+import database.member;
 
 
 public class signup extends AppCompatActivity {
@@ -34,8 +42,11 @@ public class signup extends AppCompatActivity {
     private Spinner  cSpinner;
     private Button   button;
     private FirebaseAuth mUser;
-
+    private ConstraintLayout constraint;
+    private TextView message;
     private EditText languageEditText;
+    private fb_database db;
+
 
 
     // VARIABLE FOR THE CONTEXT //
@@ -63,9 +74,17 @@ public class signup extends AppCompatActivity {
         cSpinner   = findViewById(R.id.custodySpinner);
         button     = findViewById(R.id.btnsingup);
         languageEditText = (findViewById(R.id.languageEdit));
+        message = (TextView) findViewById(R.id.message);
+
+
+        constraint = (ConstraintLayout)findViewById(R.id.user_data);
+
+
+
 
         // INITIALIZING THE CONTEXT //
         context = getApplicationContext();
+        db = new fb_database(this);
         mUser = FirebaseAuth.getInstance();
 
         // SPINNER FOR THE GENDER //
@@ -100,46 +119,72 @@ public class signup extends AppCompatActivity {
             public void onClick(View v) {
 
                 // OPENING THE ACTIVITY THAT GOES AFTER REGISTRATION //
-                String fname = fnEditText.getText().toString();
-                String lname = snEditText.getText().toString();
-                String phone =  pnEditText.getText().toString();
-                String email =  eEditText.getText().toString();
-                String password =  pEditText.getText().toString();
-                String gender = gSpinner.getSelectedItem().toString();
-                String custody = cSpinner.getSelectedItem().toString();
-                String language = languageEditText.getText().toString();
-
-                if(validateString(fname)
-                        && validateString(lname)
-                        && validateString(phone)
-                        && validateString(email)
-                        && validateString(gender)
-                        && validateString(custody)
-                        && validateString(language)
-                        && validateString(password))
-                {
-                    Context context = signup.this;
-                    Class childClass =  ss_camera_helper.class;
-                    Intent ss_camera_intent =  new Intent(context,childClass);
-                    ss_camera_intent.putExtra("fname",fname);
-                    ss_camera_intent.putExtra("lname",lname);
-                    ss_camera_intent.putExtra("phone",phone);
-                    ss_camera_intent.putExtra("email",email);
-                    ss_camera_intent.putExtra("gender",gender);
-                    ss_camera_intent.putExtra("custody",custody);
-                    ss_camera_intent.putExtra("language",language);
-                    ss_camera_intent.putExtra("password",password);
-
-                    startActivity(ss_camera_intent);
-
-                }
+                final String fname = fnEditText.getText().toString();
+                final String lname = snEditText.getText().toString();
+                final String phone =  pnEditText.getText().toString();
+                final String email =  eEditText.getText().toString();
+                final String password =  pEditText.getText().toString();
+                final String gender = gSpinner.getSelectedItem().toString();
+                final String custody = cSpinner.getSelectedItem().toString();
+                final String language = languageEditText.getText().toString();
 
 
-                // TOAST TO SHOW THE USER THAT REGISTRATION WAS SUCCESSFULLY //
+                FirebaseDatabase.getInstance().getReference().child("users")
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                boolean exist  = false;
+                                final String em = eEditText.getText().toString();
+                                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                    member user = snapshot.getValue(member.class);
+
+                                    if (user.getEmail().equals(em))
+                                       exist = true;
+                                    break;
+                                }
+
+                                if(!exist)
+                                {
+                                    if(validateString(fname)
+                                            && validateString(lname)
+                                            && validateString(phone)
+                                            && validateString(email)
+                                            && validateString(gender)
+                                            && validateString(custody)
+                                            && validateString(language)
+                                            && validateString(password)) {
+                                        Context context = signup.this;
+                                        Class childClass = ss_camera_helper.class;
+                                        Intent ss_camera_intent = new Intent(context, childClass);
+                                        ss_camera_intent.putExtra("fname", fname);
+                                        ss_camera_intent.putExtra("lname", lname);
+                                        ss_camera_intent.putExtra("phone", phone);
+                                        ss_camera_intent.putExtra("email", email);
+                                        ss_camera_intent.putExtra("gender", gender);
+                                        ss_camera_intent.putExtra("custody", custody);
+                                        ss_camera_intent.putExtra("language", language);
+                                        ss_camera_intent.putExtra("password", password);
+
+                                        startActivity(ss_camera_intent);
+                                    }else{
+                                        Toast.makeText(getApplicationContext(),"Please fill all credentials!",Toast.LENGTH_LONG).show();
+                                    }
+                                }else{
+                                    Toast.makeText(getApplicationContext(),"That email = "+email+" is registered already!",Toast.LENGTH_LONG).show();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                            }
+                        });
 
             }
         });
     }
+
+
+
 
     public boolean validateString(String text)
     {return text.length()>0;}
@@ -149,11 +194,16 @@ public class signup extends AppCompatActivity {
         super.onStart();
         if(mUser.getCurrentUser()!=null)
         {
-            Toast.makeText(getApplicationContext(),"The user is logged with account = "+mUser.getCurrentUser().getEmail(),Toast.LENGTH_LONG).show();
-            Intent login = new Intent(signup.this,login.class);
-            startActivity(login);
+            constraint.setVisibility(View.INVISIBLE);
+            message.setVisibility(View.VISIBLE);
+            message.setText("The user is logged with account = "+mUser.getCurrentUser().getEmail());
+           Toast.makeText(getApplicationContext(),"The user is logged with account = "+mUser.getCurrentUser().getEmail(),Toast.LENGTH_LONG).show();
+           Intent login = new Intent(signup.this,login.class);
+           startActivity(login);
 
         }else{
+            message.setVisibility(View.INVISIBLE);
+            constraint.setVisibility(View.VISIBLE);
             Toast.makeText(getApplicationContext(),"Please input all credentials to log in on our end!!",Toast.LENGTH_LONG).show();
 
         }

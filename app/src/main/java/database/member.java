@@ -24,14 +24,16 @@ public class member {
     public String gender;
     public String language;
     public String custody;
+    public String phone;
     //default constructor for calls to DataSnapShot.getValue(User.class)
     public member()
     {   }
 
-    public member(String fn,String ln,String email,String password, String security,String g,String custody,String language)
+    public member(String fn,String ln,String p,String email,String password, String security,String g,String custody,String language)
     {
         this.fname=fn;
         this.lname=ln;
+        this.phone = p;
         this.custody = custody;
         this.email=email;
         this.password=password;
@@ -70,6 +72,8 @@ public class member {
 
 
     //setters
+    public void setPhone(String phone)
+    {this.phone=phone;}
     public void setFName(String name)
     {this.fname=name;}
     public void setLName(String name)
@@ -111,6 +115,8 @@ public class member {
     {return this.language;}
     public String getCustody()
     {return this.custody;}
+    public String getPhone()
+    {return this.phone;}
 
 
 
