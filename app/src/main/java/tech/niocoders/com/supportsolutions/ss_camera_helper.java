@@ -2,6 +2,8 @@ package tech.niocoders.com.supportsolutions;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,8 +40,7 @@ public class ss_camera_helper extends AppCompatActivity implements View.OnClickL
     public CameraHelper cameraHelper;
     private TextView child_text_path;
     private TextView parent_text_path;
-    private Button parent;
-    private Button child;
+
     public static boolean isParent = false;
     public  static boolean isChild = false;
     public static boolean isPermissionGranted = false;
@@ -49,13 +51,21 @@ public class ss_camera_helper extends AppCompatActivity implements View.OnClickL
     private int success;
     private String mess;
     private TextView prevIntent;
+    private ImageView parentI;
+    private ImageView childI;
+    private Bitmap parentBitmap,childBitmap;
+    private Button child;
+    private Button parent;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.camera_helper);
+
+        visualRecognition =  new VisualRecognition("Apr 28, 2018 - 03:51:28",
+                getString(R.string.api_key));
+
         cameraHelper = new CameraHelper(this);
-        visualRecognition =  new VisualRecognition("Apr 28, 2018 - 03:51:28");
-        visualRecognition.setApiKey(getString(R.string.watson_api_key).toString());
+        //visualRecognition.setApiKey(getString(R.string.watson_api_key).toString());
 
         //lets instantiate the myDatabase reference for the api
         myDatabase = new fb_database(this,getApplicationContext());
@@ -67,6 +77,10 @@ public class ss_camera_helper extends AppCompatActivity implements View.OnClickL
         parent.setOnClickListener(this);
         child = (Button)findViewById(R.id.child);
         child.setOnClickListener(this);
+        childI = (ImageView)findViewById(R.id.imageView);
+
+        parentI=(ImageView)findViewById(R.id.parentImg);
+
         prevIntent = (TextView)findViewById(R.id.extraIntent);
 
         if(getIntent()!=null && getIntent().hasExtra("fname"))
@@ -84,7 +98,24 @@ public class ss_camera_helper extends AppCompatActivity implements View.OnClickL
             Toast.makeText(getApplicationContext(),"The user is logged with account = "+auth.getCurrentUser().getEmail(),Toast.LENGTH_LONG).show();
 
         }else{
-            Toast.makeText(getApplicationContext(),"Please input all credentials to log in on our end!!",Toast.LENGTH_LONG).show();
+            if(prevIntent!=null) {
+                String fname = prevInstance.getStringExtra("fname");
+                String lname = prevInstance.getStringExtra("lname");
+                String phone = prevInstance.getStringExtra("phone");
+                String email = prevInstance.getStringExtra("email");
+                String gender = prevInstance.getStringExtra("gender");
+                String custody = prevInstance.getStringExtra("custody");
+                String language = prevInstance.getStringExtra("language");
+                String password = prevInstance.getStringExtra("password");
+                prevIntent.setText("First name : " + fname +
+                        "/nLast name : " + lname +
+                        "/nEmail : " + email +
+                        "/nPhone : "+ phone+
+                        "/nGender : " + gender +
+                        "/nCustody :" + custody +
+                        "/nlanguage : " + language);
+            }
+            //Toast.makeText(getApplicationContext(),"Please input all credentials to log in on our end!!",Toast.LENGTH_LONG).show();
         }
 
 
@@ -146,33 +177,44 @@ public class ss_camera_helper extends AppCompatActivity implements View.OnClickL
             String custody = prevInstance.getStringExtra("custody");
             String language = prevInstance.getStringExtra("language");
             String password = prevInstance.getStringExtra("password");
-            String childImg="",parentImg="";
 
             if(isParent) {
                 parent_text_path.setText(cameraHelper.getFile(resultCode).toString());
-                parentImg = cameraHelper.getFile(resultCode).toString();
+
+                parentBitmap =  BitmapFactory.decodeFile(cameraHelper.getFile(resultCode).getAbsolutePath());
+                if(parentBitmap!=null)
+                {
+                    parentBitmap = Bitmap.createScaledBitmap(parentBitmap,150,150,true);
+                    parentI.setImageBitmap(parentBitmap);
+                }
                 //postImagesToBucket(cameraHelper.getFile(resultCode).toURI().getPath(),"parent");
                 System.out.println(cameraHelper.getFile(resultCode));
             }else if(isChild)
             {
-                 childImg= cameraHelper.getFile(resultCode).toString();
+
+                 childBitmap =  BitmapFactory.decodeFile(cameraHelper.getFile(resultCode).getAbsolutePath());
+                 if(childBitmap!=null)
+                 {
+                     childBitmap = Bitmap.createScaledBitmap(childBitmap,150,150,true);
+                     childI.setImageBitmap(childBitmap);
+                 }
                 //postImagesToBucket(cameraHelper.getFile(resultCode).toURI().getPath(),"child");
                 child_text_path.setText(cameraHelper.getFile(resultCode).toString());
                 System.out.println(cameraHelper.getFile(resultCode));
             }
 
-            if(parentImg.length()>0&&childImg.length()>0)
+           // if(parentBitmap!=null && childBitmap !=null)
             {
-
-                prevIntent.setText("First name : "+fname+
+                  Toast.makeText(getApplicationContext(),"we are saving data!",Toast.LENGTH_LONG).show();
+               /* prevIntent.setText("First name : "+fname+
                    "/nLast name : "+lname+
                 "/nEmail : "+email+
                 "/nGender : "+gender+
                 "/nCustody :"+custody+
-                "/nlanguage : "+language);
+                "/nlanguage : "+language);*/
                 //we writting a profile for user sign up
                 createAccountAndValidate(email,password);
-               myDatabase.FireBaseWriteNewUser(fname,lname,email,password,getTokenizableId(),gender,custody,language);
+                myDatabase.FireBaseWriteNewUser(fname,lname,phone,email,password,getTokenizableId(),gender,custody,language);
             }
 
         }

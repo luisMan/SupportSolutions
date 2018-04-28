@@ -60,7 +60,7 @@ public class login extends AppCompatActivity{
             public void onClick(View v) {
 
                 // SHOWING THE USER A TOAST FOR THEM TO KNOW THAT THEY LOGIN //
-                Toast.makeText(context, "LOGIN SUCCESSFULLY", Toast.LENGTH_SHORT).show();
+                executeLogIn();
 
             }
         });

@@ -127,8 +127,8 @@ public class fb_database {
     public member getProfile()
     {return this.profile;}
 
-    public void FireBaseWriteNewUser(String fname,String lname, String email, String password, String security, String gender,String custody, String language) {
-        member user = new member(fname,lname, email, password, security, gender,custody, language);
+    public void FireBaseWriteNewUser(String fname,String lname,String phone, String email, String password, String security, String gender,String custody, String language) {
+        member user = new member(fname,lname, phone,email, password, security, gender,custody, language);
         DatabaseReference.child("profile").child(user.getUserId()).setValue(user);
     }
 
