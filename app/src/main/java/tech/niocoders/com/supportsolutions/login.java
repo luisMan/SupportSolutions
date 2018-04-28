@@ -1,6 +1,7 @@
 package tech.niocoders.com.supportsolutions;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -58,8 +59,6 @@ public class login extends AppCompatActivity{
             @Override
             public void onClick(View v) {
 
-
-
                 // SHOWING THE USER A TOAST FOR THEM TO KNOW THAT THEY LOGIN //
                 Toast.makeText(context, "LOGIN SUCCESSFULLY", Toast.LENGTH_SHORT).show();
 
@@ -75,11 +74,12 @@ public class login extends AppCompatActivity{
         if(auth.getCurrentUser()!=null)
         {
             Toast.makeText(getApplicationContext(),"The user is logged with account = "+auth.getCurrentUser().getEmail(),Toast.LENGTH_LONG).show();
-
+            startContentUI(auth.getCurrentUser());
 
 
         }else{
             Toast.makeText(getApplicationContext(),"Please input all credentials to log in on our end!!",Toast.LENGTH_LONG).show();
+
         }
 
     }
@@ -129,6 +129,12 @@ public class login extends AppCompatActivity{
 
     public void startContentUI(FirebaseUser user)
     {
+        Context context =  login.this;
+        Class mainUI =  MainContentUI.class;
+        Intent activity = new Intent(context, mainUI);
+        activity.putExtra("authentication",user.getUid().toString());
+        startActivity(activity);
+
 
     }
 }
