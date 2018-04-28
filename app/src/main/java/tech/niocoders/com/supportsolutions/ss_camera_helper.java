@@ -19,6 +19,8 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Arrays;
 
+import database.fb_database;
+
 /**
  * Created by luism on 4/28/2018.
  */
@@ -33,6 +35,8 @@ public class ss_camera_helper extends AppCompatActivity implements View.OnClickL
     public  static boolean isChild = false;
     public static boolean isPermissionGranted = false;
     public VisualRecognition visualRecognition = null;
+
+    private fb_database myDatabase;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +44,9 @@ public class ss_camera_helper extends AppCompatActivity implements View.OnClickL
         cameraHelper = new CameraHelper(this);
         visualRecognition =  new VisualRecognition("Apr 28, 2018 - 03:51:28");
         visualRecognition.setApiKey(getString(R.string.watson_api_key).toString());
+
+        //lets instantiate the myDatabase reference for the api
+        myDatabase = new fb_database(this,getApplicationContext());
 
         //lets find item by View
         child_text_path =  (TextView)findViewById(R.id.child_path);
