@@ -24,6 +24,11 @@
          <item>Female</item>
          <item>Others</item>
      </string-array>
+    <string-array name="search">
+        <item>LawFirms</item>
+        <item>Jobs</item>
+        <item>Courts</item>
+    </string-array>
 
     <!-- MY SPINNER FOR THE TYPES OF CUSTODY -->
     <string-array name="custody">

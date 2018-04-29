@@ -278,11 +278,11 @@ public class supportsolutions extends AppCompatActivity implements OnMapReadyCal
                 Toast.makeText(context, "SINGUP CLICKED", Toast.LENGTH_LONG).show();
 >>>>>>> master
             }
-        });*/
+        });
     }
 
 
-    /*private void getLocationPermission() {
+    private void getLocationPermission() {
 
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION)

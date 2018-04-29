@@ -78,6 +78,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".login" />
         </activity>
+        <activity android:name=".Calendar" />
 
 
     </application>
