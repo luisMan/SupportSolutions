@@ -17,4 +17,23 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <!-- MY SPINNER FOR THE GENDER -->
+     <string-array name="gender">
+         <item>Choose...</item>
+         <item>Male</item>
+         <item>Female</item>
+         <item>Others</item>
+     </string-array>
+
+    <!-- MY SPINNER FOR THE TYPES OF CUSTODY -->
+    <string-array name="custody">
+        <item>Choose...</item>
+        <item>Joint Custody</item>
+        <item>Legal Custody</item>
+        <item>Physical Custody</item>
+        <item>Sole Custody</item>
+        <item>Others</item>
+    </string-array>
+
+
 </resources>
