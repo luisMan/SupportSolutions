@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="tech.niocoders.com.supportsolutions">
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -17,6 +20,7 @@
         android:largeScreens="true"
         android:xlargeScreens="true"
         android:requiresSmallestWidthDp="600" />
+
 
     <application
         android:allowBackup="true"
@@ -40,6 +44,11 @@
             android:parentActivityName=".supportsolutions">
 
         </activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDBEbyUWcLHzONWLwKO83VfEnkrw9ZGlTQ"/>
+
 
         <activity
             android:name=".ss_camera_helper"
@@ -69,6 +78,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".login" />
         </activity>
+        <activity android:name=".Calendar" />
+
 
     </application>
 
